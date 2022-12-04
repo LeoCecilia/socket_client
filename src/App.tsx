@@ -3,12 +3,14 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Login } from "@components/Login";
+import { SocketPanel } from "./components/SocketPanel";
 
 function App() {
   console.log("app");
   return (
     <div className="App">
       <Login />
+      <SocketPanel />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>

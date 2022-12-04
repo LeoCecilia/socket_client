@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
-import { io, Socket } from "socket.io-client";
+import { SocketContext } from "@/context/SocketProvider";
+import { useContext, useEffect } from "react";
+import { io } from "socket.io-client";
 import { useAuth } from "./useAuth";
 
 export const useSocket = () => {
-  const [socket, setSocket] = useState<Socket | null>(null);
+  const [socket, setSocket] = useContext(SocketContext);
   const [auth] = useAuth();
   const setupSocket = () => {
     // get token
-
     if (auth?.accessToken && !socket) {
       const newSocket = io("http://localhost:3004", {
         query: {
@@ -22,10 +22,6 @@ export const useSocket = () => {
 
       newSocket.on("connect", () => {
         console.log("socket connected");
-      });
-
-      newSocket.on("socket_data", (res) => {
-        console.log("socket data", res);
       });
 
       setSocket(newSocket);
