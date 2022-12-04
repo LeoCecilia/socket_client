@@ -15,7 +15,7 @@ export interface dataProps {
 
 export function SocketPanel() {
   const [socket] = useContext(SocketContext);
-  const [data, setData] = useState<dataProps>({} as dataProps);
+  const [data, setData] = useState<dataProps | null>(null);
   useEffect(() => {
     socket?.on("socket_data", (res) => {
       console.log("socket data", res);
@@ -23,6 +23,9 @@ export function SocketPanel() {
         setData(() => res);
       }
     });
+    return () => {
+      socket?.off("socket_data");
+    };
   }, [socket]);
   if (!data) {
     return <div>current doesn't have any data</div>;
@@ -37,7 +40,7 @@ export function SocketPanel() {
         <label>coordinates</label>
         <span>
           <i>longitute</i>
-          {data.coordinates?.longitute}
+          {data.coordinates.longitute}
         </span>
         <span>
           <i>latitude</i>
@@ -45,7 +48,7 @@ export function SocketPanel() {
         </span>
         <span>
           <i>altitude</i>
-          {data.coordinates?.altitude}
+          {data.coordinates.altitude}
         </span>
       </div>
       <div>
